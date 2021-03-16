@@ -25,7 +25,7 @@ String header;
 Motor motor1 = Motor(32, 22, 27, 0);
 Motor motor2 = Motor(23, 19, 18, 1);
 Motor motor3 = Motor(33, 2, 26, 2);
-Motor motor4 = Motor(4, 16, 17, 3);  
+Motor motor4 = Motor(4, 16, 17, 3); 
 Robot robot = Robot();
 
 // Current time
@@ -37,6 +37,9 @@ const long timeoutTime = 2000;
 
 void setup() {
   Serial.begin(115200);
+
+  //Assign motors to Robot class
+  robot.SetMotors(motor1, motor2, motor3, motor4);
 
   // Connect to Wi-Fi network with SSID and password
   Serial.print("Connecting to ");
@@ -82,53 +85,29 @@ void loop(){
             // turns the GPIOs on and off
             if (header.indexOf("GET /forward/on") >= 0) {
               Serial.println("Voorwaardsch aan");
-              motor1.Rotate(Forward);
-              motor2.Rotate(Forward);
-              motor3.Rotate(Forward);
-              motor4.Rotate(Forward);
+              robot.MoveForward();
               robot.SetMotionState(Forward, true);
             } else if (header.indexOf("GET /forward/off") >= 0) {
               Serial.println("Voorwaardsch uit");
-              motor1.Stop();
-              motor2.Stop();
-              motor3.Stop();
-              motor4.Stop();
+              robot.Stop();
               robot.SetMotionState(Forward, false);
             } else if (header.indexOf("GET /backward/on") >= 0) {
-              motor1.Rotate(Backward);
-              motor2.Rotate(Backward);
-              motor3.Rotate(Backward);
-              motor4.Rotate(Backward);
+              robot.MoveBackward();
               robot.SetMotionState(Backward, true);
             } else if (header.indexOf("GET /backward/off") >= 0) {
-              motor1.Stop();
-              motor2.Stop();
-              motor3.Stop();
-              motor4.Stop();
+              robot.Stop();
               robot.SetMotionState(Backward, false);
             } else if (header.indexOf("GET /left/on") >= 0) {
-              motor1.Rotate(Backward);
-              motor2.Rotate(Forward);
-              motor3.Rotate(Backward);
-              motor4.Rotate(Forward);
+              robot.MoveLeft();
               robot.SetMotionState(Left, true);
             } else if (header.indexOf("GET /left/off") >= 0) {
-              motor1.Stop();
-              motor2.Stop();
-              motor3.Stop();
-              motor4.Stop();
+              robot.MoveStop();
               robot.SetMotionState(Left, false);
             } else if (header.indexOf("GET /right/on") >= 0) {
-              motor1.Rotate(Forward);
-              motor2.Rotate(Backward);
-              motor3.Rotate(Forward);
-              motor4.Rotate(Backward);
+              robot.MoveLeft();
               robot.SetMotionState(Right, true);
             } else if (header.indexOf("GET /right/off") >= 0) {
-              motor1.Stop();
-              motor2.Stop();
-              motor3.Stop();
-              motor4.Stop();
+              robot.Stop();
               robot.SetMotionState(Right, false);
             } 
 
